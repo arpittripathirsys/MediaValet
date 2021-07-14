@@ -6,7 +6,6 @@ using OrderSupervisor.Generators.Interfaces;
 using OrderSupervisor.Options;
 using OrderSupervisor.Services.Interfaces;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace OrderSupervisor.Services.Implementations
@@ -16,7 +15,6 @@ namespace OrderSupervisor.Services.Implementations
         private readonly OrderOptions _orderOptions;
         private readonly Random _magicNumberGenerator;
         private readonly IOrderIdGenerator _orderIdGenerator;
-        private long orderIdSequence = 0;
         private QueueClient _queueClient;
 
 
