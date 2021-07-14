@@ -60,7 +60,7 @@ namespace OrderAgent.Services.Implementations
             {
                 Console.WriteLine($"Order Text: {order.OrderText}");
                 await _orderConfirmationService.SendAsync(_agentId, order);
-                await _queueClient.DeleteMessageAsync(queueMessage.MessageId, queueMessage.PopReceipt).ConfigureAwait(false);
+                await _queueClient.DeleteMessageAsync(queueMessage.MessageId, queueMessage.PopReceipt);
             }
 
             return canProcessNextMessage;
