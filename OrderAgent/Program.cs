@@ -16,7 +16,17 @@ namespace OrderAgent
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 
             IOrderProcessorService orderProcessorService = serviceProvider.GetService<IOrderProcessorService>();
-            await orderProcessorService.ProcessOrdersAsync();
+
+            try
+            {
+                await orderProcessorService.ProcessOrdersAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error occured: {ex}");
+            }
+
+
             Console.WriteLine("Press any key to exit...");
             Console.Read();
         }
