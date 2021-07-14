@@ -8,7 +8,7 @@ using OrderAgent.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
 
-namespace OrderAgent.Services.Impl
+namespace OrderAgent.Services.Implementations
 {
     public class OrderProcessorService : IOrderProcessorService
     {
@@ -60,7 +60,7 @@ namespace OrderAgent.Services.Impl
             {
                 Console.WriteLine($"Order Text: {order.OrderText}");
                 await _orderConfirmationService.SendAsync(_agentId, order);
-                await _queueClient.DeleteMessageAsync(queueMessage.MessageId, queueMessage.PopReceipt);
+                await _queueClient.DeleteMessageAsync(queueMessage.MessageId, queueMessage.PopReceipt).ConfigureAwait(false);
             }
 
             return canProcessNextMessage;

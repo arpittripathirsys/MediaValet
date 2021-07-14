@@ -2,30 +2,36 @@
 using MediaValet.Models;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using OrderSupervisor.Generators.Interfaces;
 using OrderSupervisor.Options;
 using OrderSupervisor.Services.Interfaces;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OrderSupervisor.Services.Impl
+namespace OrderSupervisor.Services.Implementations
 {
     public class OrderService : IOrderService
     {
-        private long orderIdSequence = 0;
         private readonly OrderOptions _orderOptions;
-        private QueueClient _queueClient;
         private readonly Random _magicNumberGenerator;
-        public OrderService(IOptions<OrderOptions> orderOptions)
+        private readonly IOrderIdGenerator _orderIdGenerator;
+        private long orderIdSequence = 0;
+        private QueueClient _queueClient;
+
+
+        public OrderService(IOptions<OrderOptions> orderOptions, IOrderIdGenerator orderIdGenerator)
         {
             _orderOptions = orderOptions.Value;
-            CreateIfNotExistAsync();
+            _orderIdGenerator = orderIdGenerator;
             _magicNumberGenerator = new Random(1);
+
+            CreateIfNotExist();
         }
 
         public async Task<Order> CreateOrderAsync()
         {
-            long orderId = Interlocked.Increment(ref orderIdSequence);
+            long orderId = _orderIdGenerator.GetNextOrderId();
             long magicNumber = _magicNumberGenerator.Next(1, 10);
             var order = new Order
             {
@@ -39,10 +45,10 @@ namespace OrderSupervisor.Services.Impl
             return order;
         }
 
-        private void CreateIfNotExistAsync()
+        private void CreateIfNotExist()
         {
             _queueClient = new QueueClient(_orderOptions.ConnectionString, _orderOptions.QueueName);
-            _queueClient.CreateIfNotExists();
+            _queueClient.CreateIfNotExistsAsync().GetAwaiter().GetResult();
         }
     }
 }

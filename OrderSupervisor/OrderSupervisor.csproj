@@ -19,5 +19,11 @@
     <ProjectReference Include="..\OrderSystem.Models\OrderSystem.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="OrderId.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>

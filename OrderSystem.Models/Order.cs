@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MediaValet.Models
+﻿namespace MediaValet.Models
 {
     public class Order
     {

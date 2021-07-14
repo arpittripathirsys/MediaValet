@@ -1,6 +1,5 @@
 ﻿using MediaValet.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using OrderSupervisor.Services.Interfaces;
 using System.Threading.Tasks;
 
@@ -10,12 +9,10 @@ namespace OrderSupervisor.Controllers
     [Route("orders")]
     public class OrderController : ControllerBase
     {
-        private readonly ILogger<OrderController> _logger;
         private readonly IOrderService _orderService;
 
-        public OrderController(ILogger<OrderController> logger,IOrderService orderService)
+        public OrderController(IOrderService orderService)
         {
-            _logger = logger;
             _orderService = orderService;
         }
 

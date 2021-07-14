@@ -6,7 +6,7 @@ using OrderAgent.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
 
-namespace OrderAgent.Services.Impl
+namespace OrderAgent.Services.Implementations
 {
     public class OrderConfirmationService : IOrderConfirmationService
     {
@@ -26,7 +26,7 @@ namespace OrderAgent.Services.Impl
                 OrderStatus = "Processed"
             };
 
-            await _tableClient.AddEntityAsync(confirmation);
+            await _tableClient.AddEntityAsync(confirmation).ConfigureAwait(false);
         }
 
         private void Initialize()
@@ -34,7 +34,7 @@ namespace OrderAgent.Services.Impl
             if (_tableClient == null)
             {
                 _tableClient = new TableClient(_orderConfirmationOptions.ConnectionString, _orderConfirmationOptions.TableName);
-                 _tableClient.CreateIfNotExists();
+                 _tableClient.CreateIfNotExistsAsync().GetAwaiter().GetResult();
             }
         }
 

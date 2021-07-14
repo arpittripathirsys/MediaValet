@@ -4,8 +4,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using OrderSupervisor.Generators.Implementations;
+using OrderSupervisor.Generators.Interfaces;
 using OrderSupervisor.Options;
-using OrderSupervisor.Services.Impl;
+using OrderSupervisor.Services.Implementations;
 using OrderSupervisor.Services.Interfaces;
 
 namespace OrderSupervisor
@@ -23,6 +25,7 @@ namespace OrderSupervisor
         {
             services.AddControllers();
             services.AddOptions();
+            services.AddSingleton<IOrderIdGenerator, OrderIdGenerator>();
             services.AddSingleton<IConfigureOptions<OrderOptions>, OrderConfigureOptions>();
             services.AddSingleton<IOrderService, OrderService>();
         }
@@ -35,8 +38,6 @@ namespace OrderSupervisor
             }
 
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

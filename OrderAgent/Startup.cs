@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using OrderAgent.Options;
-using OrderAgent.Services.Impl;
+using OrderAgent.Services.Implementations;
 using OrderAgent.Services.Interfaces;
 using System;
 using System.Collections.Generic;
