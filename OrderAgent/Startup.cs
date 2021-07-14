@@ -4,9 +4,6 @@ using Microsoft.Extensions.Options;
 using OrderAgent.Options;
 using OrderAgent.Services.Implementations;
 using OrderAgent.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OrderAgent
 {
@@ -30,7 +27,7 @@ namespace OrderAgent
             services.AddSingleton<IConfigureOptions<OrderConfirmationOptions>, OrderConfirmationConfigureOptions>();
             services.AddSingleton<IOrderConfirmationService, OrderConfirmationService>();
             services.AddSingleton<IOrderProcessorService, OrderProcessorService>();
-           
+
 
         }
     }
