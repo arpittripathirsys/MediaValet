@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MediaValet.Models\OrderSystem.Models.csproj" />
+    <ProjectReference Include="..\OrderSystem.Models\OrderSystem.Models.csproj" />
   </ItemGroup>
 
 
