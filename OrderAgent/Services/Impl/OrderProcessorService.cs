@@ -60,9 +60,9 @@ namespace OrderAgent.Services.Impl
             {
                 Console.WriteLine($"Order Text: {order.OrderText}");
                 await _orderConfirmationService.SendAsync(_agentId, order);
+                await _queueClient.DeleteMessageAsync(queueMessage.MessageId, queueMessage.PopReceipt);
             }
 
-            await _queueClient.DeleteMessageAsync(queueMessage.MessageId, queueMessage.PopReceipt);
             return canProcessNextMessage;
         }
 
