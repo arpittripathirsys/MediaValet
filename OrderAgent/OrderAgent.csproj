@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MediaValet.Models\MediaValet.Models.csproj" />
+    <ProjectReference Include="..\MediaValet.Models\OrderSystem.Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>
