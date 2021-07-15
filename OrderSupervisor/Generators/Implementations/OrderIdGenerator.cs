@@ -5,7 +5,7 @@ namespace OrderSupervisor.Generators.Implementations
 {
     public class OrderIdGenerator : IOrderIdGenerator
     {
-        const string OrderFileName = "OrderId.txt";
+        const string OrderFileName = @"Resources\OrderId.txt";
         private long _orderId = 0;
         private static volatile object _lockObject = new object();
         public OrderIdGenerator()

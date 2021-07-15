@@ -1,5 +1,4 @@
-﻿using MediaValet.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OrderSupervisor.Services.Interfaces;
 using System.Threading.Tasks;
 
@@ -17,9 +16,17 @@ namespace OrderSupervisor.Controllers
         }
 
         [HttpPost]
-        public async Task<Order> CreateOrder()
+        public async Task<IActionResult> CreateOrder()
         {
-            return await _orderService.CreateOrderAsync();
+            try
+            {
+                await _orderService.CreateOrderAsync();
+                return Ok("Successfully added order to queue");
+            }
+            catch (System.Exception)
+            {
+                return UnprocessableEntity("Failed to add order to queue");
+            }
         }
     }
 }

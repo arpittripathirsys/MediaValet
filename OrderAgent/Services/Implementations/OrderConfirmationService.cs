@@ -16,7 +16,8 @@ namespace OrderAgent.Services.Implementations
         public OrderConfirmationService(IOptions<OrderConfirmationOptions> orderConfirmationOptions)
         {
             _orderConfirmationOptions = orderConfirmationOptions.Value;
-            Initialize();
+            _tableClient = new TableClient(_orderConfirmationOptions.ConnectionString, _orderConfirmationOptions.TableName);
+            _tableClient.CreateIfNotExists();
         }
 
         public async Task SendAsync(Guid agentId, Order order)
@@ -28,15 +29,5 @@ namespace OrderAgent.Services.Implementations
 
             await _tableClient.AddEntityAsync(confirmation).ConfigureAwait(false);
         }
-
-        private void Initialize()
-        {
-            if (_tableClient == null)
-            {
-                _tableClient = new TableClient(_orderConfirmationOptions.ConnectionString, _orderConfirmationOptions.TableName);
-                 _tableClient.CreateIfNotExistsAsync().GetAwaiter().GetResult();
-            }
-        }
-
     }
 }
