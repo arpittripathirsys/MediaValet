@@ -1,4 +1,4 @@
-﻿namespace MediaValet.Models
+﻿namespace OrderAgent.Models
 {
     public class Order
     {

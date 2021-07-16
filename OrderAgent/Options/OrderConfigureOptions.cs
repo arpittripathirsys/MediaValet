@@ -5,8 +5,8 @@ namespace OrderAgent.Options
 {
     public class OrderConfigureOptions : IConfigureOptions<OrderOptions>
     {
-        private readonly IConfigurationRoot _configuration;
-        public OrderConfigureOptions(IConfigurationRoot configuration)
+        private readonly IConfiguration _configuration;
+        public OrderConfigureOptions(IConfiguration configuration)
         {
             _configuration = configuration;
         }

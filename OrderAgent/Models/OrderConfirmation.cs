@@ -2,14 +2,12 @@
 using Azure.Data.Tables;
 using System;
 
-namespace MediaValet.Models
+namespace OrderAgent.Models
 {
     public class OrderConfirmation : ITableEntity
     {
-        public OrderConfirmation()
-        {
+        public OrderConfirmation() { }
 
-        }
         public OrderConfirmation(Guid agentId, long orderId)
         {
             PartitionKey = agentId.ToString();

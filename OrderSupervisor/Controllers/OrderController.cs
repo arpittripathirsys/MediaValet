@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OrderSupervisor.Services.Interfaces;
+﻿using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using OrderSupervisor.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace OrderSupervisor.Controllers
@@ -8,19 +11,25 @@ namespace OrderSupervisor.Controllers
     [Route("orders")]
     public class OrderController : ControllerBase
     {
-        private readonly IOrderService _orderService;
-
-        public OrderController(IOrderService orderService)
+        private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
+        public OrderController(IMediator mediator, IMapper mapper)
         {
-            _orderService = orderService;
+            _mediator = mediator;
+            _mapper = mapper;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder()
+        public async Task<IActionResult> CreateOrder([FromBody] OrderRequest orderRequest)
         {
             try
             {
-                await _orderService.CreateOrderAsync();
+                if (orderRequest == null)
+                    throw new ArgumentNullException();
+
+                Order order = new Order();
+                _mapper.Map(orderRequest, order);
+                await _mediator.Send(order);
                 return Ok("Successfully added order to queue");
             }
             catch (System.Exception)

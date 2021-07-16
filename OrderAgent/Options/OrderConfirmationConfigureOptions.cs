@@ -5,8 +5,8 @@ namespace OrderAgent.Options
 {
     public class OrderConfirmationConfigureOptions : IConfigureOptions<OrderConfirmationOptions>
     {
-        private readonly IConfigurationRoot _configuration;
-        public OrderConfirmationConfigureOptions(IConfigurationRoot configuration)
+        private readonly IConfiguration _configuration;
+        public OrderConfirmationConfigureOptions(IConfiguration configuration)
         {
             _configuration = configuration;
         }

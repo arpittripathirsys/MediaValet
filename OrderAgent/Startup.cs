@@ -9,7 +9,7 @@ namespace OrderAgent
 {
     public class Startup
     {
-        IConfigurationRoot configuration { get; }
+        IConfiguration configuration { get; }
 
         public Startup()
         {
@@ -21,7 +21,7 @@ namespace OrderAgent
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IConfigurationRoot>(configuration);
+            services.AddSingleton<IConfiguration>(configuration);
             services.AddOptions();
             services.AddSingleton<IConfigureOptions<OrderOptions>, OrderConfigureOptions>();
             services.AddSingleton<IConfigureOptions<OrderConfirmationOptions>, OrderConfirmationConfigureOptions>();

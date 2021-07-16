@@ -1,6 +1,6 @@
 ﻿using Azure.Data.Tables;
-using MediaValet.Models;
 using Microsoft.Extensions.Options;
+using OrderAgent.Models;
 using OrderAgent.Options;
 using OrderAgent.Services.Interfaces;
 using System;
@@ -10,13 +10,11 @@ namespace OrderAgent.Services.Implementations
 {
     public class OrderConfirmationService : IOrderConfirmationService
     {
-        private readonly OrderConfirmationOptions _orderConfirmationOptions;
         private TableClient _tableClient;
-        
+
         public OrderConfirmationService(IOptions<OrderConfirmationOptions> orderConfirmationOptions)
         {
-            _orderConfirmationOptions = orderConfirmationOptions.Value;
-            _tableClient = new TableClient(_orderConfirmationOptions.ConnectionString, _orderConfirmationOptions.TableName);
+            _tableClient = new TableClient(orderConfirmationOptions.Value.ConnectionString, orderConfirmationOptions.Value.TableName);
             _tableClient.CreateIfNotExists();
         }
 

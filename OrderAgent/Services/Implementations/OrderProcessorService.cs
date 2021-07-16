@@ -1,8 +1,8 @@
 ﻿using Azure.Storage.Queues;
 using Azure.Storage.Queues.Models;
-using MediaValet.Models;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using OrderAgent.Models;
 using OrderAgent.Options;
 using OrderAgent.Services.Interfaces;
 using System;
@@ -17,11 +17,12 @@ namespace OrderAgent.Services.Implementations
         private QueueClient _queueClient;
         private Guid _agentId;
         private long _magicNumber;
-    
+
         public OrderProcessorService(IOptions<OrderOptions> orderOptions, IOrderConfirmationService orderConfirmationService)
         {
             _orderOptions = orderOptions.Value;
             _orderConfirmationService = orderConfirmationService;
+
         }
 
         public async Task ProcessOrdersAsync()
@@ -72,7 +73,7 @@ namespace OrderAgent.Services.Implementations
 
             _queueClient = new QueueClient(_orderOptions.ConnectionString, _orderOptions.QueueName);
             await _queueClient.CreateIfNotExistsAsync();
-           
+
             Console.WriteLine($"I’m agent {_agentId}, my magic number is {_magicNumber}");
         }
     }

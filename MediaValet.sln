@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderAgent", "OrderAgent\Or
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderSupervisor", "OrderSupervisor\OrderSupervisor.csproj", "{DD8241E2-65D1-43AA-BC66-645DBD722DBB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderSystem.Models", "OrderSystem.Models\OrderSystem.Models.csproj", "{F5AB72BA-C19B-40A6-B7BE-737F2CF57911}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderSupervisor.Test", "OrderSupervisor.Test\OrderSupervisor.Test.csproj", "{A94503FB-4120-42CF-95AA-AE5BFDB1119C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{DD8241E2-65D1-43AA-BC66-645DBD722DBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD8241E2-65D1-43AA-BC66-645DBD722DBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD8241E2-65D1-43AA-BC66-645DBD722DBB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F5AB72BA-C19B-40A6-B7BE-737F2CF57911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F5AB72BA-C19B-40A6-B7BE-737F2CF57911}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F5AB72BA-C19B-40A6-B7BE-737F2CF57911}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F5AB72BA-C19B-40A6-B7BE-737F2CF57911}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A94503FB-4120-42CF-95AA-AE5BFDB1119C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A94503FB-4120-42CF-95AA-AE5BFDB1119C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A94503FB-4120-42CF-95AA-AE5BFDB1119C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A94503FB-4120-42CF-95AA-AE5BFDB1119C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

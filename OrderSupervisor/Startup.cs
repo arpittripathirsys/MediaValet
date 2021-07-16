@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -7,8 +8,6 @@ using Microsoft.Extensions.Options;
 using OrderSupervisor.Generators.Implementations;
 using OrderSupervisor.Generators.Interfaces;
 using OrderSupervisor.Options;
-using OrderSupervisor.Services.Implementations;
-using OrderSupervisor.Services.Interfaces;
 
 namespace OrderSupervisor
 {
@@ -23,11 +22,13 @@ namespace OrderSupervisor
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
+            services.AddMediatR(typeof(Startup));
             services.AddControllers();
             services.AddOptions();
             services.AddSingleton<IOrderIdGenerator, OrderIdGenerator>();
             services.AddSingleton<IConfigureOptions<OrderOptions>, OrderConfigureOptions>();
-            services.AddSingleton<IOrderService, OrderService>();
+            //services.AddSingleton<IOrderService, OrderService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
