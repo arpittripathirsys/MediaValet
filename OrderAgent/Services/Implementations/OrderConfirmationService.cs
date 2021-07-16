@@ -20,12 +20,26 @@ namespace OrderAgent.Services.Implementations
 
         public async Task SendAsync(Guid agentId, Order order)
         {
-            var confirmation = new OrderConfirmation(agentId, order.OrderId)
+            var orderConfirmation = new OrderConfirmation(agentId, order.OrderId)
             {
                 OrderStatus = "Processed"
             };
+           
+            await SendAsync(orderConfirmation);
+        }
 
-            await _tableClient.AddEntityAsync(confirmation).ConfigureAwait(false);
+        private async Task SendAsync(OrderConfirmation orderConfirmation, int retryCounter = 0)
+        {
+            try
+            {
+                await _tableClient.AddEntityAsync(orderConfirmation).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(5));
+                if (retryCounter < 3)
+                    await SendAsync(orderConfirmation, ++retryCounter);
+            }
         }
     }
 }

@@ -69,5 +69,6 @@ namespace OrderSupervisor.Test
             Assert.AreEqual(422, errorResult.StatusCode);
             Assert.AreEqual("Failed to add order to queue", Convert.ToString(errorResult.Value));
         }
+   
     }
 }

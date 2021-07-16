@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using OrderSupervisor.Models;
 using OrderSupervisor.Options;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,7 +22,23 @@ namespace OrderSupervisor.RequestHandlers
 
         protected override async Task Handle(OrderQueueItem orderQueueItem, CancellationToken cancellationToken)
         {
-            await _queueClient.SendMessageAsync(JsonConvert.SerializeObject(orderQueueItem));
+            await PushToQueueAsync(JsonConvert.SerializeObject(orderQueueItem));
+        }
+
+        private async Task PushToQueueAsync(string message, int retryCounter = 0)
+        {
+            try
+            {
+                await _queueClient.SendMessageAsync(message);
+            }
+            catch (Exception)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(5));
+                if (retryCounter < 3)
+                    await PushToQueueAsync(message, ++retryCounter);
+                else
+                    throw;
+            }
         }
     }
 }
