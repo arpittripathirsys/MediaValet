@@ -33,7 +33,7 @@ namespace OrderSupervisor.RequestHandlers
             }
             catch (Exception)
             {
-                await Task.Delay(TimeSpan.FromSeconds(5));
+                await Task.Delay(TimeSpan.FromSeconds(5 * retryCounter));
                 if (retryCounter < 3)
                     await PushToQueueAsync(message, ++retryCounter);
                 else

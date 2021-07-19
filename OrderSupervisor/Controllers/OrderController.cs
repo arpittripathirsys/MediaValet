@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OrderSupervisor.Commands;
 using OrderSupervisor.Models;
 using System;
 using System.Threading.Tasks;
@@ -12,11 +12,9 @@ namespace OrderSupervisor.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
-        public OrderController(IMediator mediator, IMapper mapper)
+        public OrderController(IMediator mediator)
         {
             _mediator = mediator;
-            _mapper = mapper;
         }
 
         [HttpPost]
@@ -27,10 +25,10 @@ namespace OrderSupervisor.Controllers
                 if (orderRequest == null)
                     throw new ArgumentNullException();
 
-                Order order = new Order();
-                _mapper.Map(orderRequest, order);
-                await _mediator.Send(order);
-                return Ok("Successfully added order to queue");
+                CreateOrderCommand createOrderCommand = new CreateOrderCommand(orderRequest);
+                OrderResponse orderResponse = await _mediator.Send(createOrderCommand);
+
+                return Ok(orderResponse);
             }
             catch (System.Exception)
             {

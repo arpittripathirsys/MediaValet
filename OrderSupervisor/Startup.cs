@@ -28,7 +28,7 @@ namespace OrderSupervisor
             services.AddOptions();
             services.AddSingleton<IOrderIdGenerator, OrderIdGenerator>();
             services.AddSingleton<IConfigureOptions<OrderOptions>, OrderConfigureOptions>();
-            //services.AddSingleton<IOrderService, OrderService>();
+            services.AddSingleton<IConfigureOptions<OrderConfirmationOptions>, OrderConfirmationConfigureOptions>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

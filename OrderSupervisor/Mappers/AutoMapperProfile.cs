@@ -20,6 +20,13 @@ namespace OrderSupervisor.Mappers
                     dest.MagicNumber = src.MagicNumber;
                     dest.OrderText = src.OrderText;
                 });
+
+            CreateMap<OrderConfirmation, OrderResponse>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.OrderId = src.OrderId;
+                    dest.AgentId = src.AgentId;
+                });
         }
     }
 }

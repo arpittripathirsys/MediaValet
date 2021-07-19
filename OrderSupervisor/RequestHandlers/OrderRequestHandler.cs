@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using OrderSupervisor.Commands;
 using OrderSupervisor.Generators.Interfaces;
 using OrderSupervisor.Models;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OrderSupervisor.RequestHandlers
 {
-    public class OrderRequestHandler : AsyncRequestHandler<Order>
+    public class OrderRequestHandler : IRequestHandler<CreateOrderCommand, OrderResponse>
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -23,8 +24,11 @@ namespace OrderSupervisor.RequestHandlers
             _magicNumberGenerator = new Random();
         }
 
-        protected override async Task Handle(Order order, CancellationToken cancellationToken)
+        public async Task<OrderResponse> Handle(CreateOrderCommand createOrderCommand, CancellationToken cancellationToken)
         {
+            Order order = new Order();
+            _mapper.Map(createOrderCommand.OrderRequest, order);
+
             order.OrderId = _orderIdGenerator.GetNextOrderId();
             order.MagicNumber = _magicNumberGenerator.Next(1, 10);
 
@@ -33,8 +37,22 @@ namespace OrderSupervisor.RequestHandlers
 
             OrderQueueItem orderQueueItem = new OrderQueueItem();
             _mapper.Map(order, orderQueueItem);
+       
             await _mediator.Send(orderQueueItem);
+
             Console.WriteLine($"Send order {order.OrderId} with random number {order.MagicNumber}");
+
+            GetOrderConfirmationCommand command = new GetOrderConfirmationCommand(order.OrderId);
+
+            var orderConfirmation = await _mediator.Send(command);
+
+            OrderResponse orderResponse = new OrderResponse();
+            _mapper.Map(orderConfirmation, orderResponse);
+
+            return orderResponse;
         }
+
+
+
     }
 }

@@ -8,6 +8,7 @@ using NUnit.Framework;
 using OrderSupervisor.Controllers;
 using OrderSupervisor.Generators.Implementations;
 using OrderSupervisor.Generators.Interfaces;
+using OrderSupervisor.Models;
 using OrderSupervisor.Options;
 using System;
 using System.Threading.Tasks;
@@ -36,12 +37,12 @@ namespace OrderSupervisor.Test
             .AddAutoMapper(typeof(Startup))
             .AddSingleton<IOrderIdGenerator, OrderIdGenerator>()
             .AddSingleton<IConfigureOptions<OrderOptions>, OrderConfigureOptions>()
+            .AddSingleton<IConfigureOptions<OrderConfirmationOptions>, OrderConfirmationConfigureOptions>()
             .BuildServiceProvider();
 
             IMediator mediator = _serviceProvider.GetService<IMediator>();
-            IMapper mapper = _serviceProvider.GetService<IMapper>();
 
-            _orderController = new OrderController(mediator, mapper);
+            _orderController = new OrderController(mediator);
         }
 
         [Test]
@@ -50,11 +51,14 @@ namespace OrderSupervisor.Test
             // Act
             IActionResult actionResult = await _orderController.CreateOrder(new Models.OrderRequest() { OrderText = "Test Order" });
             OkObjectResult okResult = actionResult as OkObjectResult;
+            OrderConfirmation orderConfirmation = okResult.Value as OrderConfirmation;
 
             // Assert
             Assert.IsNotNull(okResult);
+            Assert.IsNotNull(orderConfirmation);
             Assert.AreEqual(200, okResult.StatusCode);
-            Assert.AreEqual("Successfully added order to queue", Convert.ToString(okResult.Value));
+            Assert.IsTrue(orderConfirmation.OrderId > 0);
+            Assert.IsTrue(orderConfirmation.AgentId != Guid.Empty);
         }
 
         [Test]
@@ -69,6 +73,6 @@ namespace OrderSupervisor.Test
             Assert.AreEqual(422, errorResult.StatusCode);
             Assert.AreEqual("Failed to add order to queue", Convert.ToString(errorResult.Value));
         }
-   
+
     }
 }
