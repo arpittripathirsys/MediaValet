@@ -26,8 +26,7 @@ namespace OrderSupervisor.RequestHandlers
 
         public async Task<OrderResponse> Handle(CreateOrderCommand createOrderCommand, CancellationToken cancellationToken)
         {
-            Order order = new Order();
-            _mapper.Map(createOrderCommand.OrderRequest, order);
+            Order order = _mapper.Map<Order>(createOrderCommand.OrderRequest);
 
             order.OrderId = _orderIdGenerator.GetNextOrderId();
             order.MagicNumber = _magicNumberGenerator.Next(1, 10);
@@ -35,9 +34,8 @@ namespace OrderSupervisor.RequestHandlers
             if (string.IsNullOrEmpty(order.OrderText))
                 order.OrderText = $"Order# {order.OrderId} MagicNumber {order.MagicNumber}";
 
-            OrderQueueItem orderQueueItem = new OrderQueueItem();
-            _mapper.Map(order, orderQueueItem);
-       
+            OrderQueueItem orderQueueItem = _mapper.Map<OrderQueueItem>(order);
+
             await _mediator.Send(orderQueueItem);
 
             Console.WriteLine($"Send order {order.OrderId} with random number {order.MagicNumber}");
@@ -46,13 +44,9 @@ namespace OrderSupervisor.RequestHandlers
 
             var orderConfirmation = await _mediator.Send(command);
 
-            OrderResponse orderResponse = new OrderResponse();
-            _mapper.Map(orderConfirmation, orderResponse);
+            OrderResponse orderResponse = _mapper.Map<OrderResponse>(orderConfirmation);
 
             return orderResponse;
         }
-
-
-
     }
 }
