@@ -19,6 +19,7 @@ namespace TestClient
         {
             try
             {
+                txtResponseText.Text = "Awaiting Response";
                 btnSubmit.IsEnabled = false;
                 OrderRequest orderRequest = new OrderRequest();
                 orderRequest.OrderText = txtOrderText.Text;
