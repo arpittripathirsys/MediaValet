@@ -1,9 +1,13 @@
-﻿using MediatR;
+﻿using Azure;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OrderSupervisor.Commands;
 using OrderSupervisor.Models;
 using System;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+
 
 namespace OrderSupervisor.Controllers
 {
@@ -30,9 +34,17 @@ namespace OrderSupervisor.Controllers
 
                 return Ok(orderResponse);
             }
-            catch (System.Exception)
+            catch (ArgumentNullException)
+            {
+                return UnprocessableEntity("Invalid Request");
+            }
+            catch (RequestFailedException)
             {
                 return UnprocessableEntity("Failed to add order to queue");
+            }
+            catch (Exception)
+            {
+                return UnprocessableEntity("Failed to create order");
             }
         }
     }

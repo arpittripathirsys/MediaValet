@@ -24,7 +24,7 @@ namespace OrderAgent.Services.Implementations
             {
                 OrderStatus = "Processed"
             };
-           
+
             await SendAsync(orderConfirmation);
         }
 
@@ -36,9 +36,11 @@ namespace OrderAgent.Services.Implementations
             }
             catch (Exception)
             {
-                await Task.Delay(TimeSpan.FromSeconds(5));
                 if (retryCounter < 3)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(5 * retryCounter));
                     await SendAsync(orderConfirmation, ++retryCounter);
+                }
             }
         }
     }
